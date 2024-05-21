@@ -1,5 +1,5 @@
 {
-  "name": "backend-project-setup",
+  "name": "assignment-2",
   "version": "1.0.0",
   "main": "./dist/server.js",
   "scripts": {
@@ -18,7 +18,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.4.0",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
