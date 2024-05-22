@@ -25,5 +25,8 @@ const productSchema = new Schema<TProduct>({
   variants: { type: [variantSchema], required: true },
   inventory: { type: inventorySchema, required: true },
 });
-
+productSchema.post("save", function (doc, next) {
+  // console.log(this, 'post hook: we  save our data')
+  next();
+});
 export const Product = model<TProduct>("Product", productSchema);

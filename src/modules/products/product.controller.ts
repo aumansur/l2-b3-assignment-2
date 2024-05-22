@@ -80,7 +80,7 @@ const updateProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Product updated successfully",
-      data: result,
+      data: data,
     });
   } catch (error: any) {
     res.status(500).json({
