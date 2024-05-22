@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ProductService } from "./product.service";
 import productValidationZosSchema from "./product.validation.zod";
-import { any } from "zod";
+import { any, string } from "zod";
 // create product
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -26,12 +26,20 @@ const createProduct = async (req: Request, res: Response) => {
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
-    const result = await ProductService.getAllProduct(
-      searchTerm as string | undefined
-    );
-    res.status(200).json({
+    const searchTermStr = searchTerm as string;
+
+    const result = await ProductService.getAllProduct(searchTermStr as string);
+
+    if (searchTermStr) {
+      return res.status(200).json({
+        success: true, // Correct success status to true
+        message: `Products matching search term '${searchTermStr}' fetched successfully!`,
+        data: result,
+      });
+    }
+    return res.status(200).json({
       success: true,
-      message: "Product fetched successfully",
+      message: "Products fetched successfully",
       data: result,
     });
   } catch (error: any) {

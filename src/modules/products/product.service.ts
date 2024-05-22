@@ -1,4 +1,3 @@
-import { object } from "zod";
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 // product create
@@ -7,13 +6,19 @@ const createProduct = async (productData: TProduct) => {
   return result;
 };
 // get all products
-const getAllProduct = async (searchTerm: string | undefined) => {
-  searchTerm ? { searchTerm } : {};
 
-  //$regex logic apply search
-  const result = await Product.find({
-    name: { $regex: searchTerm, $options: "i" },
-  });
+const getAllProduct = async (searchTerm: string) => {
+  //eslint-disable-next-line
+  const filter: any = {};
+  if (searchTerm) {
+    filter.$or = [
+      { name: { $regex: searchTerm, $options: "i" } },
+      { description: { $regex: searchTerm, $options: "i" } },
+      { category: { $regex: searchTerm, $options: "i" } },
+      { tags: { $regex: searchTerm, $options: "i" } },
+    ];
+  }
+  const result = await Product.find(filter);
   return result;
 };
 // get  product by id

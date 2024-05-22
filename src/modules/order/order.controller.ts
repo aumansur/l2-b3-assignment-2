@@ -30,12 +30,6 @@ const getAllOrders = async (req: Request, res: Response) => {
     const result = await OrderService.getAllOrders(email as string);
     console.log(result);
 
-    // if (!email || typeof email !== "string") {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Invalid email format",
-    //   });
-    // }
     if (email || typeof email === "string") {
       return res.status(200).json({
         success: false,
