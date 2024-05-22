@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
 const globalErrorHandler = (
-  error: any,
-  req: Request,
+  error: { message: string },
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -13,6 +13,7 @@ const globalErrorHandler = (
     message,
     error,
   });
+  next();
 };
 
 export default globalErrorHandler;

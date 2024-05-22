@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { OrderService } from "./order.service";
 import OrderValidationSchema from "./order.validation.zod";
 import { Product } from "../products/product.model";
 
 // order create
-const orderCreate = async (req: Request, res: Response) => {
+const orderCreate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const orderData = req.body;
     const OrderValidation = OrderValidationSchema.parse(orderData);
@@ -37,17 +37,17 @@ const orderCreate = async (req: Request, res: Response) => {
       message: "Order created successfully",
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: `${error.message} | "something went wrong"`,
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 // get all orders
 
-const getAllOrders = async (req: Request, res: Response) => {
+const getAllOrders = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const email = req.query.email;
 
@@ -69,12 +69,8 @@ const getAllOrders = async (req: Request, res: Response) => {
         data: result,
       });
     }
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: `${error.message} | "something went wrong"`,
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
