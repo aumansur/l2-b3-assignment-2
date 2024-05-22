@@ -52,7 +52,6 @@ const getAllOrders = async (
     const email = req.query.email;
 
     const result = await OrderService.getAllOrders(email as string);
-    console.log(result);
 
     if (email || typeof email === "string") {
       return res.status(200).json({
