@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ProductService } from "./product.service";
 import productValidationZosSchema from "./product.validation.zod";
-import { any, string } from "zod";
+
 // create product
-const createProduct = async (req: Request, res: Response) => {
+const createProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const productData = req.body;
     // implement validation zodpp0?: string | undefined0: string | undefined
@@ -14,16 +18,16 @@ const createProduct = async (req: Request, res: Response) => {
       message: "Product created successfully",
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "something went wrong",
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 // get all product
-const getAllProduct = async (req: Request, res: Response) => {
+const getAllProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { searchTerm } = req.query;
     const searchTermStr = searchTerm as string;
@@ -42,18 +46,18 @@ const getAllProduct = async (req: Request, res: Response) => {
       message: "Products fetched successfully",
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "something went wrong",
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
 // Retrieve specific product by ID
 
-const getProductById = async (req: Request, res: Response) => {
+const getProductById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { productId } = req.params;
     const result = await ProductService.getProductById(productId);
@@ -62,37 +66,37 @@ const getProductById = async (req: Request, res: Response) => {
       message: "Product fetched successfully",
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "something went wrong",
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 // update  specific product by ID
 
-const updateProduct = async (req: Request, res: Response) => {
+const updateProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data = req.body;
     const { productId } = req.params;
-    const result = await ProductService.updateProduct(productId, data);
+    await ProductService.updateProduct(productId, data);
     res.status(200).json({
       success: true,
       message: "Product updated successfully",
       data: data,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "something went wrong",
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
 // delete product const getProductById
-const deleteProduct = async (req: Request, res: Response) => {
+const deleteProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { productId } = req.params;
     const result = await ProductService.deleteProduct(productId);
@@ -101,14 +105,11 @@ const deleteProduct = async (req: Request, res: Response) => {
       message: "Product deleted successfully",
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "something went wrong",
-      error: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
+
 export const productController = {
   createProduct,
   getAllProduct,

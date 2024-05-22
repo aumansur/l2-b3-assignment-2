@@ -13,7 +13,7 @@ const inventorySchema = z.object({
 
 // Define Zod schema for Product
 const productValidationZosSchema = z.object({
-  name: z.string().nonempty(),
+  name: z.string({ message: " name must be string data" }),
   description: z.string().nonempty(),
   price: z.number().nonnegative(),
   category: z.string().nonempty(),
