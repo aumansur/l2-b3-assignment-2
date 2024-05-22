@@ -16,6 +16,13 @@ app.get("/", (req: Request, res: Response) => {
   res.send("hey  mansur your server is running 😎");
 });
 
+app.all("/*", (req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
+
 app.use(globalErrorHandler);
 
 export default app;

@@ -28,7 +28,6 @@ const getProductById = async (id: string) => {
 };
 // update   product by id
 const updateProduct = async (id: string, data: TProduct) => {
-  console.log(id);
   const result = await Product.updateOne({ _id: id }, { $set: data });
 
   return result;
